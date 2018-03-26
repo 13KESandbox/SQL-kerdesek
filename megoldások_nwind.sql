@@ -1,4 +1,4 @@
-﻿/* Feladatsor 1.  */
+﻿/* Feladatsor 1. */
 
 /* 01.	Mely rendelések nincsenek kiszállítva? */
 SELECT
@@ -40,7 +40,7 @@ SELECT v.Cégnév FROM vevők v
         A darabszám mögött jelenjen meg a "db" mértékegység! */
 SELECT
   k.Kategórianév,
-  ROUND(AVG(t.Egységár),2) AS `Átlagos egységár`,
+  ROUND(AVG(t.Egységár),2) AS ÁtlagosEgységár,
   CONCAT(COUNT(*), ' db') AS Darabszám
 FROM termékek t
   INNER JOIN kategóriák k
@@ -56,12 +56,12 @@ GROUP BY k.Kategórianév;
 SELECT
   v.Ország,
   v.Város,
-  COUNT(v.Vevőkód) AS `Vevők száma`
+  COUNT(v.Vevőkód) AS VevőkSzáma
 FROM vevők v
 GROUP BY v.Ország,
          v.Város
-  HAVING `Vevők száma` > 1
-  ORDER BY `Vevők száma` DESC;
+  HAVING VevőkSzáma > 1
+  ORDER BY VevőkSzáma DESC;
 
 /* 08.	Listázza ki csökkenő sorrendben azt a 10 vevőt,
         akik a legtöbb pénzt hagyták a kasszában? */
@@ -85,23 +85,94 @@ FROM rendelések r
   WHERE YEAR(r.RendelésDátuma) MOD 2 = 0 /* itt nem használható az álnév (Év) */
   GROUP BY Év;
 
-/* 10.	Határozza meg az évenként eladott termékek számát! */
+/* 10.	Határozza meg a páros években eladott (rendelés dátuma alapján)
+        termékek számát! */
+SELECT
+  YEAR(r.RendelésDátuma) AS Év,
+  SUM(rr.Mennyiség) AS db
+FROM rendelésrészletei rr
+  INNER JOIN rendelések r
+    ON rr.Rendeléskód = r.Rendeléskód
+  WHERE YEAR(r.RendelésDátuma) MOD 2 = 0
+GROUP BY Év;
+
 
 /* 11.	Üzletkötőnként határozza meg az össze engedmény értékét! */
+SELECT
+  a.Vezetéknév,
+  a.Keresztnév,
+  SUM(rr.Egységár*rr.Mennyiség*rr.Engedmény) AS Engedmény
+FROM rendelések r
+  INNER JOIN alkalmazottak a
+    ON r.Alkalmazottkód = a.Alkalmazottkód
+  INNER JOIN rendelésrészletei rr
+    ON rr.Rendeléskód = r.Rendeléskód
+WHERE a.Beosztás = 'Üzletkötő'
+  GROUP BY a.Alkalmazottkód;
+
 
 /* 12.	Az üzletkötők hányszor adtak engedményt? */
+SELECT
+  CONCAT(a.Vezetéknév,' ',a.Keresztnév) AS Név,
+  COUNT(*) AS EngedményDb
+FROM rendelések r
+  INNER JOIN alkalmazottak a
+    ON r.Alkalmazottkód = a.Alkalmazottkód
+  INNER JOIN rendelésrészletei rr
+    ON rr.Rendeléskód = r.Rendeléskód
+WHERE a.Beosztás = 'Üzletkötő' AND rr.Engedmény != 0
+  GROUP BY a.Alkalmazottkód;
 
-/* 13.	 Tíznél több terméket tartalmazó kategóriákban hány termék szerepel. */
+/* 13.	 Tíznél több terméket tartalmazó kategóriákban
+          hány termék szerepel? */
+SELECT
+  k.Kategórianév,
+  COUNT(t.Kategóriakód) AS Darabszám
+FROM termékek t
+  INNER JOIN kategóriák k
+    ON t.Kategóriakód = k.Kategóriakód
+GROUP BY k.Kategórianév
+  HAVING Darabszám > 10;
+
 
 /* 14.	A Fizetés mezőben azon üzletkötők jövedelme,
         akiké meghaladja az "Igazgató" vagy "Alelnök" címmel 
         rendelkező minden alkalmazottét. */
+SELECT
+  a.Vezetéknév,
+  a.Beosztás,
+  a.Fizetés
+FROM alkalmazottak a
+WHERE a.Beosztás = 'üzletkötő'
+AND a.Fizetés > ALL (SELECT
+    a.Fizetés
+  FROM alkalmazottak a
+  WHERE a.Beosztás LIKE '%igazgató%'
+  OR a.Beosztás LIKE '%alelnök%');
 
 /* 15.	A Rendelésösszeg: [Egységár] * [Mennyiség] számított mezőben
         az átlagos rendelésértéknél nagyobb összegű rendelések. */
+SELECT
+  r.Rendeléskód,
+  (rr.Mennyiség * rr.Egységár) AS Rendelésösszeg
+FROM rendelésrészletei rr
+  INNER JOIN rendelések r
+    ON rr.Rendeléskód = r.Rendeléskód
+  WHERE (rr.Mennyiség * rr.Egységár) > 
+    (SELECT AVG(rr.Egységár*rr.Mennyiség) 
+      FROM rendelésrészletei rr);
 
-/* 16.	Az Egységár mező azon termékei,
-        amelyek egységára megegyezik az ánizsmagszörpével. */
+/* 16.	Azok a termékek,
+        melyek egységára megegyezik a Lakkalikööri egységárával.
+        A  Lakkalikööri ne jelenjen meg a listában! */
+
+SELECT * FROM termékek t
+  WHERE 
+    t.Terméknév != 'Lakkalikööri' AND 
+    t.Egységár = 
+         (SELECT t.Egységár FROM termékek t
+          WHERE t.Terméknév='Lakkalikööri');
+
 
 /* 17.	Kik azok az üzletkötők, akik legalább egy igazgatónál vagy alelnököknél 
         idősebbek? */
