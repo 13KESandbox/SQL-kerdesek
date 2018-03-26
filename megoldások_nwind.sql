@@ -1,145 +1,145 @@
-/* Feladatsor 1. */
+ï»¿/* Feladatsor 1.  */
 
-/* 01.	Mely rendelések nincsenek kiszállítva? */
+/* 01.	Mely rendelÃ©sek nincsenek kiszÃ¡llÃ­tva? */
 SELECT
-  r.Rendeléskód
-FROM rendelések r
-  WHERE r.SzállításDátuma IS NULL;
+  r.RendelÃ©skÃ³d
+FROM rendelÃ©sek r
+  WHERE r.SzÃ¡llÃ­tÃ¡sDÃ¡tuma IS NULL;
 
-/* 02.	Listázzuk ki azoknak a vevõknek a neveit (cégnév),
-  akik határidõ után kaptak meg legalább egy rendelést! */
-SELECT DISTINCT v.Cégnév
-FROM rendelések r
-  INNER JOIN vevõk v
-    ON r.Vevõkód = v.Vevõkód
-WHERE r.SzállításDátuma > r.Határidõ;
+/* 02.	ListÃ¡zzuk ki azoknak a vevÅ‘knek a neveit (cÃ©gnÃ©v),
+  akik hatÃ¡ridÅ‘ utÃ¡n kaptak meg legalÃ¡bb egy rendelÃ©st! */
+SELECT DISTINCT v.CÃ©gnÃ©v
+FROM rendelÃ©sek r
+  INNER JOIN vevÅ‘k v
+    ON r.VevÅ‘kÃ³d = v.VevÅ‘kÃ³d
+WHERE r.SzÃ¡llÃ­tÃ¡sDÃ¡tuma > r.HatÃ¡ridÅ‘;
 
 
-/* 03.	Listázza ki az 1000 Ft-nál olcsóbb italokat! */
+/* 03.	ListÃ¡zza ki az 1000 Ft-nÃ¡l olcsÃ³bb italokat! */
 SELECT
-  t.Terméknév
-FROM termékek t
-  INNER JOIN kategóriák k
-    ON t.Kategóriakód = k.Kategóriakód
-WHERE k.Kategórianév = 'Italok'
-AND t.Egységár < 1000;
+  t.TermÃ©knÃ©v
+FROM termÃ©kek t
+  INNER JOIN kategÃ³riÃ¡k k
+    ON t.KategÃ³riakÃ³d = k.KategÃ³riakÃ³d
+WHERE k.KategÃ³rianÃ©v = 'Italok'
+AND t.EgysÃ©gÃ¡r < 1000;
 
-/* 04.	Listázza ki a 1995-ös év rendeléseit! */
-SELECT * FROM rendelések r
-  WHERE YEAR(r.RendelésDátuma)=1995;
+/* 04.	ListÃ¡zza ki a 1995-Ã¶s Ã©v rendelÃ©seit! */
+SELECT * FROM rendelÃ©sek r
+  WHERE YEAR(r.RendelÃ©sDÃ¡tuma)=1995;
 
-/* 05.	A Vevõ (Cégnév) 3. vagy negyedik betûje „R”-betû. */
-SELECT v.Cégnév FROM vevõk v
-  WHERE v.Cégnév LIKE '__R%' OR 
-        v.Cégnév LIKE '___R%';
+/* 05.	A VevÅ‘ (CÃ©gnÃ©v) 3. vagy negyedik betÅ±je â€Râ€-betÅ±. */
+SELECT v.CÃ©gnÃ©v FROM vevÅ‘k v
+  WHERE v.CÃ©gnÃ©v LIKE '__R%' OR 
+        v.CÃ©gnÃ©v LIKE '___R%';
 
 
-/* 06.	Határozzuk meg a kategóriánkénti kifutott termékek számát és
-        átlagos egységárát!
-        Az átlagos egységár legyen két tizedesjegyre kerekítve
-        A darabszám mögött jelenjen meg a "db" mértékegység! */
+/* 06.	HatÃ¡rozzuk meg a kategÃ³riÃ¡nkÃ©nti kifutott termÃ©kek szÃ¡mÃ¡t Ã©s
+        Ã¡tlagos egysÃ©gÃ¡rÃ¡t!
+        Az Ã¡tlagos egysÃ©gÃ¡r legyen kÃ©t tizedesjegyre kerekÃ­tve
+        A darabszÃ¡m mÃ¶gÃ¶tt jelenjen meg a "db" mÃ©rtÃ©kegysÃ©g! */
 SELECT
-  k.Kategórianév,
-  ROUND(AVG(t.Egységár),2) AS `Átlagos egységár`,
-  CONCAT(COUNT(*), ' db') AS Darabszám
-FROM termékek t
-  INNER JOIN kategóriák k
-    ON t.Kategóriakód = k.Kategóriakód
+  k.KategÃ³rianÃ©v,
+  ROUND(AVG(t.EgysÃ©gÃ¡r),2) AS `Ãtlagos egysÃ©gÃ¡r`,
+  CONCAT(COUNT(*), ' db') AS DarabszÃ¡m
+FROM termÃ©kek t
+  INNER JOIN kategÃ³riÃ¡k k
+    ON t.KategÃ³riakÃ³d = k.KategÃ³riakÃ³d
 WHERE t.Kifutott IS TRUE
-GROUP BY k.Kategórianév;
+GROUP BY k.KategÃ³rianÃ©v;
 
 
-/* 07.	Határozza meg országonként és városonként a vevõk számát! 
-        Csak azok a városok jelenjenek meg,
-        ahol a vevõk száma nagyobb, mint 1!
-        A lista legyen vevõk száma alapján csökkenõ rendben! */
+/* 07.	HatÃ¡rozza meg orszÃ¡gonkÃ©nt Ã©s vÃ¡rosonkÃ©nt a vevÅ‘k szÃ¡mÃ¡t! 
+        Csak azok a vÃ¡rosok jelenjenek meg,
+        ahol a vevÅ‘k szÃ¡ma nagyobb, mint 1!
+        A lista legyen vevÅ‘k szÃ¡ma alapjÃ¡n csÃ¶kkenÅ‘ rendben! */
 SELECT
-  v.Ország,
-  v.Város,
-  COUNT(v.Vevõkód) AS `Vevõk száma`
-FROM vevõk v
-GROUP BY v.Ország,
-         v.Város
-  HAVING `Vevõk száma` > 1
-  ORDER BY `Vevõk száma` DESC;
+  v.OrszÃ¡g,
+  v.VÃ¡ros,
+  COUNT(v.VevÅ‘kÃ³d) AS `VevÅ‘k szÃ¡ma`
+FROM vevÅ‘k v
+GROUP BY v.OrszÃ¡g,
+         v.VÃ¡ros
+  HAVING `VevÅ‘k szÃ¡ma` > 1
+  ORDER BY `VevÅ‘k szÃ¡ma` DESC;
 
-/* 08.	Listázza ki csökkenõ sorrendben azt a 10 vevõt,
-        akik a legtöbb pénzt hagyták a kasszában? */
+/* 08.	ListÃ¡zza ki csÃ¶kkenÅ‘ sorrendben azt a 10 vevÅ‘t,
+        akik a legtÃ¶bb pÃ©nzt hagytÃ¡k a kasszÃ¡ban? */
 SELECT
-  v.Cégnév,
-  FORMAT(SUM(rr.Egységár*rr.Mennyiség*(1-rr.Engedmény)), 0) AS Fizet
-FROM rendelések r
-  INNER JOIN vevõk v
-    ON r.Vevõkód = v.Vevõkód
-  INNER JOIN rendelésrészletei rr
-    ON rr.Rendeléskód = r.Rendeléskód
-  GROUP BY v.Cégnév
-  ORDER BY SUM(rr.Egységár*rr.Mennyiség*(1-rr.Engedmény)) DESC
+  v.CÃ©gnÃ©v,
+  FORMAT(SUM(rr.EgysÃ©gÃ¡r*rr.MennyisÃ©g*(1-rr.EngedmÃ©ny)), 0) AS Fizet
+FROM rendelÃ©sek r
+  INNER JOIN vevÅ‘k v
+    ON r.VevÅ‘kÃ³d = v.VevÅ‘kÃ³d
+  INNER JOIN rendelÃ©srÃ©szletei rr
+    ON rr.RendelÃ©skÃ³d = r.RendelÃ©skÃ³d
+  GROUP BY v.CÃ©gnÃ©v
+  ORDER BY SUM(rr.EgysÃ©gÃ¡r*rr.MennyisÃ©g*(1-rr.EngedmÃ©ny)) DESC
   LIMIT 10;
 
-/* 09.	Határozza meg a páros években az évenkénti rendelések számát! */
+/* 09.	HatÃ¡rozza meg a pÃ¡ros Ã©vekben az Ã©venkÃ©nti rendelÃ©sek szÃ¡mÃ¡t! */
 SELECT
-  YEAR(r.RendelésDátuma) AS Év,
-  COUNT(r.Rendeléskód)
-FROM rendelések r
-  WHERE YEAR(r.RendelésDátuma) MOD 2 = 0 /* itt nem használható az álnév (Év) */
-  GROUP BY Év;
+  YEAR(r.RendelÃ©sDÃ¡tuma) AS Ã‰v,
+  COUNT(r.RendelÃ©skÃ³d)
+FROM rendelÃ©sek r
+  WHERE YEAR(r.RendelÃ©sDÃ¡tuma) MOD 2 = 0 /* itt nem hasznÃ¡lhatÃ³ az Ã¡lnÃ©v (Ã‰v) */
+  GROUP BY Ã‰v;
 
-/* 10.	Határozza meg az évenként eladott termékek számát! */
+/* 10.	HatÃ¡rozza meg az Ã©venkÃ©nt eladott termÃ©kek szÃ¡mÃ¡t! */
 
-/* 11.	Üzletkötõnként határozza meg az össze engedmény értékét! */
+/* 11.	ÃœzletkÃ¶tÅ‘nkÃ©nt hatÃ¡rozza meg az Ã¶ssze engedmÃ©ny Ã©rtÃ©kÃ©t! */
 
-/* 12.	Az üzletkötõk hányszor adtak engedményt? */
+/* 12.	Az Ã¼zletkÃ¶tÅ‘k hÃ¡nyszor adtak engedmÃ©nyt? */
 
-/* 13.	 Tíznél több terméket tartalmazó kategóriákban hány termék szerepel. */
+/* 13.	 TÃ­znÃ©l tÃ¶bb termÃ©ket tartalmazÃ³ kategÃ³riÃ¡kban hÃ¡ny termÃ©k szerepel. */
 
-/* 14.	A Fizetés mezõben azon üzletkötõk jövedelme,
-        akiké meghaladja az "Igazgató" vagy "Alelnök" címmel 
-        rendelkezõ minden alkalmazottét. */
+/* 14.	A FizetÃ©s mezÅ‘ben azon Ã¼zletkÃ¶tÅ‘k jÃ¶vedelme,
+        akikÃ© meghaladja az "IgazgatÃ³" vagy "AlelnÃ¶k" cÃ­mmel 
+        rendelkezÅ‘ minden alkalmazottÃ©t. */
 
-/* 15.	A Rendelésösszeg: [Egységár] * [Mennyiség] számított mezõben
-        az átlagos rendelésértéknél nagyobb összegû rendelések. */
+/* 15.	A RendelÃ©sÃ¶sszeg: [EgysÃ©gÃ¡r] * [MennyisÃ©g] szÃ¡mÃ­tott mezÅ‘ben
+        az Ã¡tlagos rendelÃ©sÃ©rtÃ©knÃ©l nagyobb Ã¶sszegÅ± rendelÃ©sek. */
 
-/* 16.	Az Egységár mezõ azon termékei,
-        amelyek egységára megegyezik az ánizsmagszörpével. */
+/* 16.	Az EgysÃ©gÃ¡r mezÅ‘ azon termÃ©kei,
+        amelyek egysÃ©gÃ¡ra megegyezik az Ã¡nizsmagszÃ¶rpÃ©vel. */
 
-/* 17.	Kik azok az üzletkötõk, akik legalább egy igazgatónál vagy alelnököknél 
-        idõsebbek? */
+/* 17.	Kik azok az Ã¼zletkÃ¶tÅ‘k, akik legalÃ¡bb egy igazgatÃ³nÃ¡l vagy alelnÃ¶kÃ¶knÃ©l 
+        idÅ‘sebbek? */
 SELECT
-  a.Vezetéknév,
-  a.Beosztás,
-  a.SzületésiDátum
+  a.VezetÃ©knÃ©v,
+  a.BeosztÃ¡s,
+  a.SzÃ¼letÃ©siDÃ¡tum
 FROM alkalmazottak a
-WHERE a.Beosztás = 'üzletkötõ'
-AND a.SzületésiDátum < ANY (SELECT
-    a.SzületésiDátum
+WHERE a.BeosztÃ¡s = 'Ã¼zletkÃ¶tÅ‘'
+AND a.SzÃ¼letÃ©siDÃ¡tum < ANY (SELECT
+    a.SzÃ¼letÃ©siDÃ¡tum
   FROM alkalmazottak a
-  WHERE a.Beosztás LIKE '%igazgató%'
-  OR a.Beosztás LIKE '%alelnök%');
+  WHERE a.BeosztÃ¡s LIKE '%igazgatÃ³%'
+  OR a.BeosztÃ¡s LIKE '%alelnÃ¶k%');
 
 /* Feladatsor 2. */
 
-/* 01. Add meg a kifutott termékek nevét és szállítóját! */
+/* 01. Add meg a kifutott termÃ©kek nevÃ©t Ã©s szÃ¡llÃ­tÃ³jÃ¡t! */
 
-/* 02. Töröld az Alkalmazottak táblából a Gyakornok Beosztású rekordokat. */
+/* 02. TÃ¶rÃ¶ld az Alkalmazottak tÃ¡blÃ¡bÃ³l a Gyakornok BeosztÃ¡sÃº rekordokat. */
 
-/* 03. Add meg a B és az M betûvel kezdõdõ városokból szállított termékek nevét és egységárát. */
+/* 03. Add meg a B Ã©s az M betÅ±vel kezdÅ‘dÅ‘ vÃ¡rosokbÃ³l szÃ¡llÃ­tott termÃ©kek nevÃ©t Ã©s egysÃ©gÃ¡rÃ¡t. */
 
-/* 04. Add meg a raktáron lévõ termékek átlagos egységárát. */
+/* 04. Add meg a raktÃ¡ron lÃ©vÅ‘ termÃ©kek Ã¡tlagos egysÃ©gÃ¡rÃ¡t. */
 
-/* 05. Add meg a minimumkészlet alá csökkent nem kifutott termékek nevét és darabszámát terméknév szerinti sorrendben. */
+/* 05. Add meg a minimumkÃ©szlet alÃ¡ csÃ¶kkent nem kifutott termÃ©kek nevÃ©t Ã©s darabszÃ¡mÃ¡t termÃ©knÃ©v szerinti sorrendben. */
 
-/* 06. Add meg a 10 legnagyobb raktári összértékkel rendelkezõ termék nevét, beszállítóját, értékszerinti csökkenõ sorrendben. */
+/* 06. Add meg a 10 legnagyobb raktÃ¡ri Ã¶sszÃ©rtÃ©kkel rendelkezÅ‘ termÃ©k nevÃ©t, beszÃ¡llÃ­tÃ³jÃ¡t, Ã©rtÃ©kszerinti csÃ¶kkenÅ‘ sorrendben. */
 
-/* 07.Add meg az 1995 elsõ félévében született rendelések megrendelésszámát, megrendelõjét és az alkalmazott nevét, aki a megrendelést bonyolította. */
+/* 07.Add meg az 1995 elsÅ‘ fÃ©lÃ©vÃ©ben szÃ¼letett rendelÃ©sek megrendelÃ©sszÃ¡mÃ¡t, megrendelÅ‘jÃ©t Ã©s az alkalmazott nevÃ©t, aki a megrendelÃ©st bonyolÃ­totta. */
 
-/* 08. Add meg annak a 3 alkalmazottnak a nevét, akik 1995-ben a legkevesebb rendeléseket bonyolította. */
+/* 08. Add meg annak a 3 alkalmazottnak a nevÃ©t, akik 1995-ben a legkevesebb rendelÃ©seket bonyolÃ­totta. */
 
-/* 09. A következõ példa minden olyan rekord Felettes mezõjét 5-re állítja, amelynek jelenleg 2 az értéke. */
+/* 09. A kÃ¶vetkezÅ‘ pÃ©lda minden olyan rekord Felettes mezÅ‘jÃ©t 5-re Ã¡llÃ­tja, amelynek jelenleg 2 az Ã©rtÃ©ke. */
 
-/* 10. A következõ példa minden olyan termék egységárát megnöveli 10 százalékkal, amely a 8. számú szállítótól származik, és amelybõl van raktáron. */
+/* 10. A kÃ¶vetkezÅ‘ pÃ©lda minden olyan termÃ©k egysÃ©gÃ¡rÃ¡t megnÃ¶veli 10 szÃ¡zalÃ©kkal, amely a 8. szÃ¡mÃº szÃ¡llÃ­tÃ³tÃ³l szÃ¡rmazik, Ã©s amelybÅ‘l van raktÃ¡ron. */
 
-/* 11. A következõ példa minden olyan termék egységárát csökkenti 10 százalékkal, amely a Tokyo Traders nevû szállítótól származik, és amelybõl van raktáron.  */
+/* 11. A kÃ¶vetkezÅ‘ pÃ©lda minden olyan termÃ©k egysÃ©gÃ¡rÃ¡t csÃ¶kkenti 10 szÃ¡zalÃ©kkal, amely a Tokyo Traders nevÅ± szÃ¡llÃ­tÃ³tÃ³l szÃ¡rmazik, Ã©s amelybÅ‘l van raktÃ¡ron.  */
 
-/* 12. Add meg a termékek kategóriánkénti átlagos egységárát! */
+/* 12. Add meg a termÃ©kek kategÃ³riÃ¡nkÃ©nti Ã¡tlagos egysÃ©gÃ¡rÃ¡t! */
 
