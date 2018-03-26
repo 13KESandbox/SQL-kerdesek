@@ -1,18 +1,18 @@
-nwind adatbázishoz 4db feladat készítése:
+ï»¿nwind adatbÃ¡zishoz 4db feladat kÃ©szÃ­tÃ©se:
 ===========================================
 
-1. Min. 4 táblás lekérdezés, WHERE záradék összetett logikai kifejezéssel, ORDER BY záradékkal
-   Opciók: DISTINCT, LIMIT, YEAR(), CONCAT(), FORMAT()
-   Operátorok: relációs, LIKE, NOT LIKE, BETWEEN
+1. Min. 4 tÃ¡blÃ¡s lekÃ©rdezÃ©s, WHERE zÃ¡radÃ©k Ã¶sszetett logikai kifejezÃ©ssel, ORDER BY zÃ¡radÃ©kkal
+   OpciÃ³k: DISTINCT, LIMIT, YEAR(), CONCAT(), FORMAT()
+   OperÃ¡torok: relÃ¡ciÃ³s, LIKE, NOT LIKE, BETWEEN
 
-2. Lekérdezés csoportosítással: GROUP BY, WHERE, HAVING
-   Táblák száma: 1-8
-   Agregát függvények: COUNT(), AVG(), MIN(), MAX(), SUM()
+2. LekÃ©rdezÃ©s csoportosÃ­tÃ¡ssal: GROUP BY, WHERE, HAVING
+   TÃ¡blÃ¡k szÃ¡ma: 1-8
+   AgregÃ¡t fÃ¼ggvÃ©nyek: COUNT(), AVG(), MIN(), MAX(), SUM()
 
-3. Lekérdezés alkérdéssel, az alkérdés pontosan 1db értéket ad vissza
+3. LekÃ©rdezÃ©s alkÃ©rdÃ©ssel, az alkÃ©rdÃ©s pontosan 1db Ã©rtÃ©ket ad vissza
 
-4. Lekérdezés alkérdéssel, az alkérdés több értéket ad vissza
-   Operátorok: IN, NOT IN, ALL, ANY 
+4. LekÃ©rdezÃ©s alkÃ©rdÃ©ssel, az alkÃ©rdÃ©s tÃ¶bb Ã©rtÃ©ket ad vissza
+   OperÃ¡torok: IN, NOT IN, ALL, ANY 
 
 
 
