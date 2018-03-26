@@ -1,0 +1,2 @@
+# SQL-kerdesek
+dbForge tippek:
