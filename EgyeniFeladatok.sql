@@ -1,7 +1,7 @@
 /* Fehér Csaba */
 /* NL: Csaba a megoldásokat is töltsed fel! */
 
-/* 1. Mennyit tett zsebre a tulaj 1995-ben, ha az összes költság a fizetések 10%-a? */
+/* 1. Mennyit tett zsebre a tulaj 1995-ben, ha az összes költság a fizetések 10%-a?*/
 
 /* 2. Írja ki növekvő sorrendben, melyik fuvarozó mennyit keresett összesen! */
 
