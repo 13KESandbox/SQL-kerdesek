@@ -10,7 +10,6 @@
    Agregát függvények: COUNT(), AVG(), MIN(), MAX(), SUM()
 
 3. Lekérdezés alkérdéssel, az alkérdés pontosan 1db értéket ad vissza
-
 4. Lekérdezés alkérdéssel, az alkérdés több értéket ad vissza
    Operátorok: IN, NOT IN, ALL, ANY 
 
