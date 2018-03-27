@@ -1,5 +1,5 @@
 /* Fehér Csaba */
-/* NL: Csaba a megoldásokat is töltsed fel! */
+/* NL: Csaba a megoldásokat is töltsed fel!*/
 
 /* 1. Mennyit tett zsebre a tulaj 1995-ben, ha az összes költság a fizetések 10%-a? */
 
