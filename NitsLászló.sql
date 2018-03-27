@@ -1,1 +1,4 @@
 próba
+alma
+körte
+barack
