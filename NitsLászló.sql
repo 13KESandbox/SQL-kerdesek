@@ -1,0 +1,4 @@
+próba
+alma
+körte
+barack
