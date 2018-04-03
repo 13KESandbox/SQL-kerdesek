@@ -1,34 +1,34 @@
-/* Melyek azok a tejtermÃ©kek amelyek M-val kezdÅ‘dÅ‘ vÃ¡rosba lettek kiszÃ¡llÃ­tva NÃ©metorszÃ¡gba?*/  
+/* Melyek azok a tejtermékek amelyek M-val kezdõdõ városba lettek kiszállítva Németországba?*/  
   SELECT DISTINCT
-  t.TermÃ©knÃ©v,
-  v.VÃ¡ros
-FROM rendelÃ©srÃ©szletei rr
-  INNER JOIN rendelÃ©sek r
-    ON rr.RendelÃ©skÃ³d = r.RendelÃ©skÃ³d
-  INNER JOIN vevÅ‘k v
-    ON r.VevÅ‘kÃ³d = v.VevÅ‘kÃ³d
-  INNER JOIN termÃ©kek t
-    ON rr.TermÃ©kkÃ³d = t.TermÃ©kkÃ³d
-  INNER JOIN kategÃ³riÃ¡k k
-    ON t.KategÃ³riakÃ³d = k.KategÃ³riakÃ³d
-WHERE k.KategÃ³riakÃ³d = 4 
-AND v.VÃ¡ros LIKE 'M%'
-AND v.OrszÃ¡g LIKE 'NÃ©metorszÃ¡g';
+  t.Terméknév,
+  v.Város
+FROM rendelésrészletei rr
+  INNER JOIN rendelések r
+    ON rr.Rendeléskód = r.Rendeléskód
+  INNER JOIN vevõk v
+    ON r.Vevõkód = v.Vevõkód
+  INNER JOIN termékek t
+    ON rr.Termékkód = t.Termékkód
+  INNER JOIN kategóriák k
+    ON t.Kategóriakód = k.Kategóriakód
+WHERE k.Kategóriakód = 4 
+AND v.Város LIKE 'M%'
+AND v.Ország LIKE 'Németország';
 
-/* 2.) Melyik termÃ©k volt  a legkelendÅ‘bb 1994. augusztusÃ¡ban? */ 
+/* 2.) Melyik termék volt  a legkelendõbb 1994. augusztusában? */ 
   SELECT
-  t.TermÃ©knÃ©v,
-  SUM(rr.MennyisÃ©g) AS MennyisÃ©g
-FROM rendelÃ©srÃ©szletei rr
-  INNER JOIN termÃ©kek t
-    ON rr.TermÃ©kkÃ³d = t.TermÃ©kkÃ³d
-  INNER JOIN rendelÃ©sek r
-    ON rr.RendelÃ©skÃ³d = r.RendelÃ©skÃ³d
-WHERE YEAR(r.RendelÃ©sDÃ¡tuma) = 1994
-AND MONTH(r.RendelÃ©sDÃ¡tuma) = 8
-GROUP BY t.TermÃ©knÃ©v
-  ORDER BY MennyisÃ©g DESC
-LIMIT 1
+  t.Terméknév,
+  SUM(rr.Mennyiség) AS Mennyiség
+FROM rendelésrészletei rr
+  INNER JOIN termékek t
+    ON rr.Termékkód = t.Termékkód
+  INNER JOIN rendelések r
+    ON rr.Rendeléskód = r.Rendeléskód
+WHERE YEAR(r.RendelésDátuma) = 1994
+AND MONTH(r.RendelésDátuma) = 8
+GROUP BY t.Terméknév
+  ORDER BY Mennyiség DESC
+LIMIT 1 
 
 /* 3.) 
 
