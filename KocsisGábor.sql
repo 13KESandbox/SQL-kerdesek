@@ -6,15 +6,13 @@ SELECT DISTINCT
 FROM rendelésrészletei rr
   INNER JOIN rendelések r
     ON rr.Rendeléskód = r.Rendeléskód
-  INNER JOIN vevők v
-    ON r.Vevőkód = v.Vevőkód
   INNER JOIN termékek t
     ON rr.Termékkód = t.Termékkód
   INNER JOIN kategóriák k
     ON t.Kategóriakód = k.Kategóriakód
 WHERE k.Kategóriakód = 1
-AND v.Város LIKE 'A%'
-AND v.Ország LIKE 'USA';
+AND r.Város LIKE 'A%'
+AND r.Ország LIKE 'USA';
 
 /* 2. Ki a legtöbb édességet fuvarozó cég? */
   SELECT
@@ -35,7 +33,20 @@ GROUP BY f.Cégnév
 /*  */
 
 
-/*  */
+/* 4. Listázzon ki minden olyan rendelést ami Belkereskedelmi szervezőhöz köthető  */
+  SELECT
+  r.Rendeléskód
+FROM rendelések r
+  INNER JOIN alkalmazottak a 
+    ON r.Alkalmazottkód = a.Alkalmazottkód
+  INNER JOIN rendelésrészletei rr
+    ON rr.Rendeléskód = r.Rendeléskód
+WHERE r.Alkalmazottkód IN (SELECT
+    a.Alkalmazottkód
+  FROM alkalmazottak a
+  WHERE a.Beosztás LIKE 'Belkereskedelmi szervező'
+ )
+ GROUP BY Rendeléskód
 
 
 
