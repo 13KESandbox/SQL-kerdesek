@@ -1,0 +1,72 @@
+1. kérdésre:
+
+	1. Milyen édességeket rendeltek 1995 elõtt?
+
+SELECT
+  termékek.Terméknév
+FROM rendelésrészletei
+  INNER JOIN rendelések
+    ON rendelésrészletei.Rendeléskód = rendelések.Rendeléskód
+  INNER JOIN termékek
+    ON rendelésrészletei.Termékkód = termékek.Termékkód
+  INNER JOIN kategóriák
+    ON termékek.Kategóriakód = kategóriák.Kategóriakód
+  WHERE YEAR(rendelések.RendelésDátuma) < 1995 AND kategóriák.Kategórianév = "Édességek"
+  GROUP BY termékek.Terméknév
+
+2. kérdésre:
+
+
+	2. Átlagosan hány darabot rendeltek az egyes italokból?
+	(az átlagok kettõ tizedesre legyenek kerekítve és utána jelenjen meg a " db")
+
+SELECT
+  termékek.Terméknév,
+  CONCAT(ROUND(AVG(rendelésrészletei.Mennyiség), 2), " db")
+FROM termékek
+  INNER JOIN kategóriák
+    ON termékek.Kategóriakód = kategóriák.Kategóriakód
+  INNER JOIN rendelésrészletei
+    ON rendelésrészletei.Termékkód = termékek.Termékkód
+  WHERE kategóriák.Kategórianév LIKE "Italok"
+  GROUP BY termékek.Terméknév
+
+3. kérdésre
+
+
+	3. Melyik fûszerbõl rendeltek kevesebbet az átlagos mennyiségnél?
+
+SELECT
+  termékek.Terméknév
+FROM termékek
+  INNER JOIN rendelésrészletei
+    ON termékek.Termékkód = rendelésrészletei.Termékkód
+  INNER JOIN kategóriák
+    ON termékek.Kategóriakód = kategóriák.Kategóriakód
+WHERE kategóriák.Kategórianév = 'Fûszerek'
+AND rendelésrészletei.Mennyiség < (SELECT
+    AVG(rendelésrészletei.Mennyiség) AS `Átlag mennyiség`
+  FROM rendelésrészletei
+    INNER JOIN termékek
+      ON rendelésrészletei.Termékkód = termékek.Termékkód
+    INNER JOIN kategóriák
+      ON termékek.Kategóriakód = kategóriák.Kategóriakód
+  WHERE kategóriák.Kategórianév = 'Fûszerek')
+  GROUP BY termékek.Terméknév
+
+4.kérdésre
+	4. Melyikek azok a vevõk akik nem rendeltek ugyan azon években mint az Alfreds Futterkiste?
+
+SELECT
+  vevõk.Cégnév
+FROM vevõk
+  INNER JOIN rendelések
+    ON rendelések.Vevõkód = vevõk.Vevõkód
+  WHERE YEAR(rendelések.RendelésDátuma) NOT IN (SELECT
+  YEAR(rendelések.RendelésDátuma)
+FROM rendelések
+  INNER JOIN vevõk
+    ON rendelések.Vevõkód = vevõk.Vevõkód
+  WHERE vevõk.Cégnév = 'Alfreds Futterkiste'
+  GROUP BY YEAR(rendelések.RendelésDátuma))
+  GROUP BY vevõk.Cégnév
