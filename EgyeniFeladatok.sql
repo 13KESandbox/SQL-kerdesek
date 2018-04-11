@@ -1,4 +1,6 @@
+Függvény szoroz(int a, int b);
 /* Fehér Csaba */
+
 <<<<<<< HEAD
 /* NL: Csaba a megoldásokat is töltsed fel! */ 
 =======
