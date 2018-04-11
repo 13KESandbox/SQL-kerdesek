@@ -1,8 +1,8 @@
 
-/* Nits László */
+/* Tóth Gergő */
 
 /* 1. Mennyit tett zsebre a tulaj 1995-ben, ha az összes költság a fizetések 10%-a?*/
-SELEC1 
+SELEC1
 
 /* 2. Írja ki növekvő sorrendben, melyik fuvarozó mennyit keresett összesen! */
 SELEC2
