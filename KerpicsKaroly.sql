@@ -60,4 +60,4 @@ WHERE YEAR(rendelések.SzállításDátuma) IN (SELECT
   FROM rendelések
     INNER JOIN vevők
       ON rendelések.Vevőkód = vevők.Vevőkód
-  WHERE vevők.Cégnév = "Chop-suey Chinese"))
+  WHERE vevők.Cégnév = "Chop-suey Chinese"));
