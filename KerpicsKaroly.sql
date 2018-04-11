@@ -43,7 +43,7 @@ SELECT
   LIMIT 1)
   GROUP BY vevők.Cégnév;
 
-/* 4. Melyikek azok a vevők akiknek nem szállítottak ugyan azon években mint az Chop-suey Chinese?*/
+/* 4. Melyikek azok a vevők akiknek nem szállítottak ugyan azon években mint az Consolidated Holdings?*/
 
 SELECT
   vevők.Cégnév
@@ -60,4 +60,4 @@ WHERE YEAR(rendelések.SzállításDátuma) IN (SELECT
   FROM rendelések
     INNER JOIN vevők
       ON rendelések.Vevőkód = vevők.Vevőkód
-  WHERE vevők.Cégnév = "Chop-suey Chinese"));
+  WHERE vevők.Cégnév = "Consolidated Holdings"));
