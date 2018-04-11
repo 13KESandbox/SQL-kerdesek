@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 függvény Összead(int a, int b)
 {
     térj vissza a+b
 }
 /* Fehér Csaba */
+=======
+Függvény szoroz(int a, int b);
+/* Fehér Csaba */
+
+<<<<<<< HEAD
+>>>>>>> a5cff5d155ea5e360ae3529992473a2ffc27b797
 /* NL: Csaba a megoldásokat is töltsed fel! */ 
 /* NL: Csaba a megoldásokat is töltsed fel!*/
 
